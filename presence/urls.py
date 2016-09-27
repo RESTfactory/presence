@@ -19,8 +19,8 @@ from rest_framework import routers
 from .views import AppViewSet, EntityViewSet, CheckinTypeViewSet, CheckinViewSet
 
 router = routers.DefaultRouter()
-router.register(r'checkins', CheckinTypeViewSet)
-router.register(r'checkintypes', CheckinViewSet)
+router.register(r'checkintypes', CheckinTypeViewSet)
+router.register(r'checkins', CheckinViewSet)
 router.register(r'entities', EntityViewSet)
 router.register(r'apps', AppViewSet)
 
