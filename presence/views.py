@@ -15,5 +15,5 @@ class CheckinTypeViewSet(viewsets.ModelViewSet):
     serializer_class = CheckinTypeSerializer
 
 class CheckinViewSet(viewsets.ModelViewSet):
-    queryset = Checkin.objects.all()
+    queryset = Checkin.objects.all().order_by('-created_at')
     serializer_class = CheckinSerializer
