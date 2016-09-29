@@ -27,5 +27,6 @@ router.register(r'apps', AppViewSet)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
+    url(r'^', include('places.urls')), #NOTE: without $
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
