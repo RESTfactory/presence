@@ -1,5 +1,7 @@
 from django.conf import settings
 from django.db import models
+from places.models import Place
+
 
 class App(models.Model):
     name = models.CharField(max_length=30)
@@ -32,6 +34,7 @@ class Checkin(models.Model):
     checkin_type = models.ForeignKey(CheckinType)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_at = models.DateTimeField(auto_now_add=True)
+    place = models.ForeignKey(Place)
 
     def __str__(self):
         return self.name
