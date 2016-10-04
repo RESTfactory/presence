@@ -16,7 +16,7 @@ def place_handler(sender, instance, *args, **kwargs):
 
     if(not instance.address):
         if(instance.latitude and instance.longitude):
-            location = geolocator.reverse("%s, %s" % (instance.latitude, instance.longitude))
+            location = geolocator.reverse("%s, %s" % (instance.latitude, instance.longitude), timeout=10)
             instance.address = location.address
 
 pre_save.connect(place_handler, sender=Place, dispatch_uid="place_handler")
