@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 from places.models import Place
 
-
 class App(models.Model):
     name = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -21,17 +20,15 @@ class Entity(models.Model):
     def __str__(self):
         return self.name
 
-
-class CheckinType(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=30, blank=True)
-    entity = models.ForeignKey(Entity)
+class Checkin(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    created_at = models.DateTimeField(auto_now_add=True)
+    place = models.ForeignKey(Place)
 
     def __str__(self):
         return self.name
 
-class Checkin(models.Model):
-    checkin_type = models.ForeignKey(CheckinType)
+class Checkout(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_at = models.DateTimeField(auto_now_add=True)
     place = models.ForeignKey(Place)
