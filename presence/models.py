@@ -26,7 +26,7 @@ class Checkin(models.Model):
     place = models.ForeignKey(Place)
 
     def __str__(self):
-        return self.name
+        return str(self.created_at)
 
 class Checkout(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -34,4 +34,4 @@ class Checkout(models.Model):
     place = models.ForeignKey(Place)
 
     def __str__(self):
-        return self.name
+        return str(self.created_at)
