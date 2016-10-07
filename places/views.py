@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from geopy.geocoders import Nominatim
 from .models import Place
 from .serializers import PlaceSerializer
 
@@ -9,12 +10,16 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            place_data = request.data
             place = None
 
             # Validate if place exists!
             try:
-                place_id="11322747"
+                geolocator = Nominatim()
+                location = None
+
+                location = geolocator.reverse("%s, %s" % (request.data.get("latitude"), request.data.get("longitude")), timeout=10)
+                place_id = location.raw.get("place_id")
+
                 old_place = Place.objects.get(place_id=place_id)
 
                 if(old_place):
@@ -24,10 +29,11 @@ class PlaceViewSet(viewsets.ModelViewSet):
             except Exception as e:
                 pass
 
-            serializer = self.get_serializer(data=place_data)
+            serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
+
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
         except Exception as e:
