@@ -9,10 +9,26 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            serializer = self.get_serializer(data=request.data)
+            place_data = request.data
+            place = None
+
+            # Validate if place exists!
+            try:
+                place_id="11322747"
+                old_place = Place.objects.get(place_id=place_id)
+
+                if(old_place):
+                    serializer = self.get_serializer(old_place)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+
+            except Exception as e:
+                pass
+
+            serializer = self.get_serializer(data=place_data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
         except Exception as e:
             return Response({"msg":str(e)}, status=status.HTTP_400_BAD_REQUEST)
