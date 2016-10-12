@@ -1,8 +1,12 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from geopy.geocoders import Nominatim
-from .models import Place
-from .serializers import PlaceSerializer
+from .models import PointOfInterest, Place
+from .serializers import PointOfInterestSerializer, PlaceSerializer
+
+class PointOfInterestViewSet(viewsets.ModelViewSet):
+    queryset = PointOfInterest.objects.all()
+    serializer_class = PointOfInterestSerializer
 
 class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()

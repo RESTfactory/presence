@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 from django.db import DatabaseError, IntegrityError
-from .models import Place
+from .models import PointOfInterest, Place
 
 class PlaceAdmin(admin.ModelAdmin):
     def add_view(self, request, form_url='', extra_context=None):
@@ -21,4 +21,5 @@ class PlaceAdmin(admin.ModelAdmin):
             messages.error(request, e)
             return super(PlaceAdmin, self).change_view(request, object_id, form_url, extra_context)
 
+admin.site.register(PointOfInterest)
 admin.site.register(Place, PlaceAdmin)
