@@ -18,6 +18,8 @@ class PointOfInterest(PlaceMarkerMixin):
         return str(self.name)+" - "+str(self.address)
 
 class Place(PlaceMarkerMixin):
+    pois = models.ManyToManyField(PointOfInterest, blank=True)
+
     def __str__(self):
         return self.address
 
