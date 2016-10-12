@@ -1,4 +1,5 @@
-from django.db import models
+# from django.db import models
+from django.contrib.gis.db import models
 from django.db.models.signals import pre_save
 from geopy.geocoders import Nominatim
 
@@ -13,6 +14,9 @@ class PlaceMarkerMixin(models.Model):
 
 class PointOfInterest(PlaceMarkerMixin):
     name = models.CharField(max_length=255, blank=False, null=False)
+    # point = models.PointField()
+    #
+    # objects = models.GeoManager()
 
     def __str__(self):
         return str(self.name)+" - "+str(self.address)

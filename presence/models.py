@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.db import models
+# from django.db import models
+from django.contrib.gis.db import models
 from places.models import Place
 
 class App(models.Model):
