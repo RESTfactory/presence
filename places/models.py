@@ -1,4 +1,5 @@
 # from django.db import models
+from django.contrib.gis.geos import Point
 from django.contrib.gis.db import models
 from django.db.models.signals import pre_save
 from geopy.geocoders import Nominatim
@@ -14,7 +15,7 @@ class PlaceMarkerMixin(models.Model):
 
 class PointOfInterest(PlaceMarkerMixin):
     name = models.CharField(max_length=255, blank=False, null=False)
-    point = models.PointField(default='POINT(0.0 0.0)')
+    point = models.PointField(blank=True)
 
     objects = models.GeoManager()
 
@@ -23,7 +24,7 @@ class PointOfInterest(PlaceMarkerMixin):
 
 class Place(PlaceMarkerMixin):
     pois = models.ManyToManyField(PointOfInterest, blank=True)
-    point = models.PointField(default='POINT(0.0 0.0)')
+    point = models.PointField(blank=True)
 
     objects = models.GeoManager()
 
@@ -42,6 +43,7 @@ def place_handler(sender, instance, *args, **kwargs):
 
             instance.place_id = place_id
             instance.address = location.address
+            instance.point = Point(location.longitude, location.latitude)
 
 pre_save.connect(place_handler, sender=PointOfInterest, dispatch_uid="point_of_interest_handler")
 pre_save.connect(place_handler, sender=Place, dispatch_uid="place_handler")
