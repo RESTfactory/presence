@@ -1,8 +1,11 @@
-from rest_framework import viewsets, status
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D as distance
+from rest_framework import mixins, viewsets, status
 from rest_framework.response import Response
 from geopy.geocoders import Nominatim
 from .models import PointOfInterest, Place
 from .serializers import PointOfInterestSerializer, PlaceSerializer
+
 
 class PointOfInterestViewSet(viewsets.ModelViewSet):
     queryset = PointOfInterest.objects.all()
@@ -42,3 +45,18 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             return Response({"msg":str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class NearPlacesViewSet(viewsets.ViewSet):
+
+    def create(self, request):
+        latitude = float(request.data.get("latitude"))
+        longitude = float(request.data.get("longitude"))
+
+        current_location = Point(longitude, latitude)
+        places = Place.objects.filter(point__distance_lte=(current_location, distance(m=100)))
+
+        serializer = PlaceSerializer(places, many=True)
+        return Response(serializer.data)

@@ -9,9 +9,6 @@ class PlaceMarkerMixin(models.Model):
     address = models.CharField(max_length=255, blank=True, editable=False)
     latitude = models.CharField(max_length=30, blank=True)
     longitude = models.CharField(max_length=30, blank=True)
-    point = models.PointField(blank=True)
-
-    objects = models.GeoManager()
 
     class Meta:
         abstract = True
@@ -19,10 +16,15 @@ class PlaceMarkerMixin(models.Model):
 class PointOfInterest(PlaceMarkerMixin):
     name = models.CharField(max_length=255, blank=False, null=False)
 
+    point = models.PointField(blank=True)
+    objects = models.GeoManager()
+
     def __str__(self):
         return str(self.name)+" - "+str(self.address)
 
 class Place(PlaceMarkerMixin):
+    point = models.PointField(blank=True)
+    objects = models.GeoManager()
 
     def __str__(self):
         return self.address
