@@ -6,7 +6,6 @@ from geopy.geocoders import Nominatim
 from .models import PointOfInterest, Place
 from .serializers import PointOfInterestSerializer, PlaceSerializer
 
-
 class PointOfInterestViewSet(viewsets.ModelViewSet):
     queryset = PointOfInterest.objects.all()
     serializer_class = PointOfInterestSerializer
@@ -45,8 +44,6 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             return Response({"msg":str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 
 class NearPlacesViewSet(viewsets.ViewSet):
