@@ -53,7 +53,7 @@ class NearPlacesViewSet(viewsets.ViewSet):
         longitude = float(request.data.get("longitude"))
 
         current_location = Point(longitude, latitude)
-        places = Place.objects.filter(point__distance_lte=(current_location, distance(m=100)))
+        places = Place.objects.filter(point__distance_lte=(current_location, distance(m=150)))
 
         serializer = PlaceSerializer(places, many=True)
         return Response(serializer.data)
