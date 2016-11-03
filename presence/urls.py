@@ -16,12 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework import routers
-from .views import AppViewSet, EntityViewSet, CheckinViewSet, CheckoutViewSet
+from .views import AppViewSet, EntityViewSet, SessionViewSet,CheckinViewSet, CheckoutViewSet
 
 router = routers.DefaultRouter()
 router.register(r'checkins', CheckinViewSet)
 router.register(r'checkouts', CheckoutViewSet)
 router.register(r'entities', EntityViewSet)
+router.register(r'sessions', SessionViewSet)
 router.register(r'apps', AppViewSet)
 
 urlpatterns = [
