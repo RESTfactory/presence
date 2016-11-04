@@ -87,3 +87,4 @@ def session_auto_creation_handler(sender, instance, *args, **kwargs):
             raise
 
 pre_save.connect(session_auto_creation_handler, sender=Checkin, dispatch_uid="session_auto_creation_handler")
+pre_save.connect(session_auto_creation_handler, sender=Checkout, dispatch_uid="session_auto_creation_handler")

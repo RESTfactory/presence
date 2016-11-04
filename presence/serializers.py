@@ -3,9 +3,6 @@ from .models import App, Entity, Session, Checkin, Checkout
 from places.serializers import PlaceSerializer
 
 class CheckinSerializer(serializers.ModelSerializer):
-    # session = SessionSerializer()
-    place = PlaceSerializer()
-
     class Meta:
         model = Checkin
         fields = ["url", "id", "session", "user", "place"]
@@ -13,6 +10,7 @@ class CheckinSerializer(serializers.ModelSerializer):
 class CheckoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Checkout
+        fields = ["url", "id", "session", "user", "place"]
 
 class EntitySerializer(serializers.ModelSerializer):
     class Meta:
