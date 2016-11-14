@@ -1,14 +1,18 @@
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D as distance
-from rest_framework import mixins, viewsets, status
+from rest_framework import (
+    mixins,
+    viewsets,
+    status
+)
 from rest_framework.response import Response
 from geopy.geocoders import Nominatim
-from .models import PointOfInterest, Place
-from .serializers import PointOfInterestSerializer, PlaceSerializer
-
-class PointOfInterestViewSet(viewsets.ModelViewSet):
-    queryset = PointOfInterest.objects.all()
-    serializer_class = PointOfInterestSerializer
+from .models import (
+    Place
+)
+from .serializers import (
+    PlaceSerializer
+)
 
 class PlaceViewSet(viewsets.ModelViewSet):
     queryset = Place.objects.all()
@@ -53,7 +57,7 @@ class NearPlacesViewSet(viewsets.ViewSet):
         longitude = float(request.data.get("longitude"))
 
         current_location = Point(longitude, latitude)
-        places = Place.objects.filter(point__distance_lte=(current_location, distance(m=150)))
+        places = Place.objects.filter(point__distance_lte=(current_location, distance(m=150000)))
 
         serializer = PlaceSerializer(places, many=True)
         return Response(serializer.data)

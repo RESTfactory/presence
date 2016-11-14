@@ -12,15 +12,6 @@ class PlaceMarkerMixin(models.Model):
     class Meta:
         abstract = True
 
-class PointOfInterest(PlaceMarkerMixin):
-    name = models.CharField(max_length=255, blank=False, null=False)
-
-    point = models.PointField(blank=True)
-    objects = models.GeoManager()
-
-    def __str__(self):
-        return str(self.name)+" - "+str(self.address)
-
 class Place(PlaceMarkerMixin):
     point = models.PointField(blank=True)
     objects = models.GeoManager()
@@ -42,5 +33,4 @@ def place_handler(sender, instance, *args, **kwargs):
             instance.address = location.address
             instance.point = Point(location.longitude, location.latitude)
 
-pre_save.connect(place_handler, sender=PointOfInterest, dispatch_uid="point_of_interest_handler")
 pre_save.connect(place_handler, sender=Place, dispatch_uid="place_handler")
