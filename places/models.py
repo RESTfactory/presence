@@ -6,6 +6,7 @@ from geopy.geocoders import Nominatim
 class PlaceMarkerMixin(models.Model):
     place_id = models.IntegerField(unique=True, blank=True, editable=False)
     address = models.CharField(max_length=255, blank=True, editable=False)
+    name = models.CharField(max_length=255)
     latitude = models.CharField(max_length=30, blank=True)
     longitude = models.CharField(max_length=30, blank=True)
 
