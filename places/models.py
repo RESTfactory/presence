@@ -14,6 +14,8 @@ class PlaceMarkerMixin(models.Model):
         abstract = True
 
 class Place(PlaceMarkerMixin):
+    code = models.CharField(max_length=40, unique=True)
+
     point = models.PointField(blank=True)
     objects = models.GeoManager()
 
