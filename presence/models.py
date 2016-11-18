@@ -27,7 +27,6 @@ class Entity(DateTimeRegisterMixin):
         return self.name
 
 class Session(DateTimeRegisterMixin):
-    # entity = models.ForeignKey(Entity)
     place = models.ForeignKey(Place)
     active = models.BooleanField(default=True)
     start = models.DateTimeField(blank=True, null=True)
@@ -75,10 +74,7 @@ def session_auto_creation_handler(sender, instance, *args, **kwargs):
 
     if instance.session is None:
 
-        print("creating entity")
-        place = Place.objects.get(id=6)
-
-        session = Session.objects.create(place=place)
+        session = Session.objects.create(place=instance.place)
         session.save()
 
         try:
