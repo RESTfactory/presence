@@ -16,7 +16,7 @@ class PlaceMarkerMixin(models.Model):
 class Place(PlaceMarkerMixin):
     code = models.CharField(max_length=40, unique=True)
 
-    point = models.PointField(blank=True)
+    point = models.PointField(blank=True, null=True)
     objects = models.GeoManager()
 
     def __str__(self):
@@ -25,6 +25,12 @@ class Place(PlaceMarkerMixin):
 def place_handler(sender, instance, *args, **kwargs):
     geolocator = Nominatim()
     location = None
+
+    if(instance.latitude == "-"):
+        instance.latitude = None;
+
+    if(instance.longitude == "-"):
+        instance.longitude = None;
 
     if(not instance.address):
         if(instance.latitude and instance.longitude):
@@ -35,5 +41,8 @@ def place_handler(sender, instance, *args, **kwargs):
             instance.place_id = place_id
             instance.address = location.address
             instance.point = Point(location.longitude, location.latitude)
+
+    if(instance.latitude and instance.longitude):
+        instance.point = Point(float(instance.longitude), float(instance.latitude))
 
 pre_save.connect(place_handler, sender=Place, dispatch_uid="place_handler")
